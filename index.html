@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <title>Descobrir Iguais</title> 
+ </head>
+   <body>
+      <h1>Vamos jogar o jogo da memória feita pela superior: Sophia Lozado</h1>
+       <div id="placar">Pontuação: 0</div>
+      <!-- Primeiros passos para inciar a lógica do nosso jogo
+
+     1) Como temos várias cartas no jogo, e seus valores são usados 
+       constantemente, mais de uma vez e mais de uma carta por vez, seria inte-
+       ressante usarmos uma lista (array []), para conseguirmos manipu-
+       lar essas cartas.
+
+       2) Se sabe também que essas cartas não podem estar enfileiradas com 
+       os mesmos valores lado a lado, ex: a do lado de a, b do lado de b e assim em diante
+       logo, precisamos embaralhar nossas opções.
+
+       3)Em quase todo jogo de memória as cartas começam para baixo,
+       então nosso ponto de partida, será o verso de nossas cartas
+       3) Logo depois, nosso usuário começará a interação, ele terá duas
+       jogadas seguidas (virará duas caras de uma vez).
+
+       4) Depois vamos verificar se essas cartas são de pares iguais, para
+       computar os pontos, tentavivas e é claro deixa-las para cima.
+
+       5) Bem e se ele não acertar os pares, aí essas cartas viradas para cima
+       deveram ser viradas para baixo de novo, logo o estado inicial.
+
+       6)Quando o jogador acabar e achar todos os pares essas cartas estarão todas
+       viradas para cima e assim o jogo acaba.
+      -->
+     
+        <div class="ContaiinerDoJogo">
+            <table id="tabuleiro">
+                
+                    <tr>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                         
+                    </tr>
+
+                 
+
+                    <tr>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                    </tr>
+
+                 
+
+                    <tr><td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                        <td><img src="IMGs/verso_das_cartas.jpg" alt="cartas"></td>
+                    </tr>
+               
+            </table>
+            
+               
+       </div>
+           
+      <button onclick="JogarNovamente()" id="JogarNovamente">Jogar Novamente</button>
+     
+        
+         
+         
+        <script>
+         // 1º PASSO  CRIAR A LISTA COM AS CARTAS
+         /* Usaremos o LET, para declarar essa lista
+         seria como dizer "cria uma variável(que pode ter qualquer nome), depois coloque ela dentro dessa lista"
+         nossa lista terá o tipo string (tendo em vista as"")*/
+        
+         // Parte tenebrosa EMBARALHAR AS CARTAS
+         /*
+         Para tal fasanha precisamos criar uma função, que irá se chamar:
+          funcion embaralhar(listas), o que está entre parênteses não é
+          a mesma variável criada lã em cima, é apenas um apelido(pique o alias, no msql)
+          que usaremos para que o Js entenda que o nosso parâmetro será chamado de "cartas"
+          mas pode ser tipo "funcion embaralhar(cartas),"
+          ok, depois que criarmos a função vamos realmente faze-la funcionar (ou quase isso)
+          como queremos embaralhar ela, (a array "cartas") a gnt tem que concordar que esse processo
+          de embaralhar vai ser feito mais de uma vez, então podemos colocar nossa função
+          para ser repetida né, mais fácil do que repetir linha.
+          Então vamos começar com o "for" de cara, para fazermos que esse embaralhamento
+          seja repetido até o fim (sem deixar nenhum índice/ carta sem ser embaralhado)
+          bem depois disso temos que falarr o que esse for irá fazer (pior parte)
+          esse ciclo será assim: "Cria pra mim a váriavel i, depois atribui ela
+          o tamanho total da lista cartas, mas você não vai colocar ela de frente pra tras, vai
+          colocar ela de tras pra frente, do último índice até o primeiro, belê, depois disso tudo
+          oce vai ver pra mim: enquanto o i for maior que 0, ele sempre vai ser tirado dele mesmo, pique 1 - 1"
+          em código isso ficaria assim: for(let i = lista.length -1;i >0; i--)
+          E agora a gnt vai determinar o que vai acontecer enquanto esse looping for verdadeiro
+          que vai ser: cria uma variável chamada j que vai receber um número aleatório entre 0 e o valor máximo que o "i" tem,
+          otimo, agora vamos fazer o embaralhamento de fato: cria mais uma variável chamda temporario, que vai
+          guardar o valor atual da lista [i], depois pega a  lista [i] e atribui ela ao valor atual da 
+          lista [j] (percebe-se que o que faz a coisa acontecer é o índice j ou i), ok depois disso
+          pega a  lista [j] e atribui ela ao valor que está agora, na variável temporario, é, só isso.
+          (Lembrando que isso não vai acontecer apenas uma vez, mas sim até que o i seja maior que 0) 
+          Isso no código ficaria assim: let j =  Math.floor(Math.random() * (i + 1));
+          let temporario = lista[i]; lista[i] =  lista[j]; lista[j] = temporario;
+         */
+            function embaralhar(lista)
+            {
+                //Esse método de embaralhar é conhecido como algoritmo de Fisher-Yates.
+                // Percorre a lista de trás para frente
+                for (let i = lista.length - 1; i > 0; i--) {
+                    
+                    // Sorteia um índice aleatório entre 0 e i
+                    let j = Math.floor(Math.random() * (i + 1));
+                    
+                    // Troca os elementos das posições i e j
+                    let temporario = lista[i];   // guarda o valor atual da lista[i]
+                    lista[i] = lista[j];         // coloca o valor sorteado na posição i
+                    lista[j] = temporario;       // coloca o valor guardado na posição j
+                }
+
+                // quando essa função terminar, devolva a lista já embaralhada
+                return lista;
+            }          
+            
+            /*Agora vamos fazer a junção de HTML E JS (bem cumplicadim mas tá bom)
+             Inicialmente vamos ter o tabuleiro(que está representado via HTML, pelo table abaixo)
+             que vai ser atribuido pela váriavel "tabuleiro", onde o document.getElementById, vai pegar
+             realmente o tabuleiro (table) e vai pegar todos seus elementos desse id, depois disso
+             vamos as imagens, para que o js entenda que queremos as imagens tbm temos que criar outra
+             variável que vai ser ImagensCartasHTML, que vai receber a variável tabuleiro, mas não somente ela
+             mas também as suas imagens (pois nesse tabuleiro, originalmente HTML, temos elementos de imagem)
+             então usaremos o seguinte: let ImagensCartasHTML = tabuleiro.querySelectorAll("img") que puxa todos
+             os elementos imagens do tabuleiro
+             */
+            let tabuleiro = document.getElementById("tabuleiro");
+            let  ImagensCartasHTML = tabuleiro.querySelectorAll("img");
+               let cartas = ['A', 'A', 'B','B', 'C','C','D','D', 'E'];
+               cartas = embaralhar(cartas);
+
+            /* E agora a parte que faz com que cada carta tenha sua imagem associada
+            Em outras palavras: cada imagem com seu índice
+             Para isso temos que falar para toda a lista que : vamos ter imagens em cada índice dela
+             então para percorremos essa lista (que será  ImagensCartasHTML ) a gente faz o forEach, ok
+             e agora? Já sabemos que temos que andar por ela toda, mas é só isso? É... quem dera fosse
+             Agora vem realmente o que essa função vai fazer, a é esqueci de dizer que esse passo seria uma função,
+             mas enfim, depois do forEach a gnt vai colocar os parâmetros que essa função vai receber: img 
+             (as próprias imagens) e a posicao (posições de cada carta, que vão ser definidas nessa função)
+             depois do parâmetro vem a ação da função: agora as imagens vão ter dados armazenados (agora essas imagens vão ter mais um trem nelas)
+             mas que dados são esses? São os valores, que no fim vão ser atribuidos pela lista cartas[posicao]
+             Logo na nossa lingua fica: nessa imagem aí guarda o valor da carta que tá na posição [1], exemplo 
+             data-valor='A', o valor dessa carta é 'A'.
+            */
+            /* Vamos agora para uma parte que parece que está chegando ao fim, mas não está, 
+            bem agora chegou a parte de manter aas cartas viradas ou desviradas. 
+            Para isso criamos duas variáveis: uma para aprimeira carta clicada e a outra para a segunda.
+            As duas precisam receber algum valor, e nesse caso será o nulo, pois elas não tem nenhuma carta
+            selecionada, ou seja nenhum índice foi atribuído a elas.
+             
+            */
+           
+             let primeiraCarta = null
+             let segundaCarta = null
+             let terceiraCarta = false
+             let pontos=0; //contador de pontos
+             let placar = document.getElementById("placar"); // Seleciona o placar
+               ImagensCartasHTML.forEach
+               (    
+                    function(img, posicao) 
+                        {
+                          img.dataset.valor = cartas[posicao];
+                          img.addEventListener("click", function() //escuta o clique na carta. função que será executada quando o clique acontecer.
+                                { // Se já está virada, não deixa clicar de novo
+                                 if (!img.src.includes("verso_das_cartas.jpg") || terceiraCarta) return;
+                                 img.src ="IMGs/" + img.dataset.valor + ".jpg";
+                                 // pega o valor da carta escondida.
+                                  if (primeiraCarta == null)
+                                    {
+                                        primeiraCarta = img;
+                                    }
+                                  else if(segundaCarta == null)
+                                    {
+                                        segundaCarta = img;
+                                    }
+                                 if(primeiraCarta.dataset.valor == segundaCarta.dataset.valor )
+                                    {
+                                        primeiraCarta = null;
+                                        segundaCarta = null;
+                                        pontos++; // soma 1 ponto
+                                        placar.textContent = "Pontuação: " + pontos; // atualiza na tela
+                                          verificarVitoria(); // chamando função, quando for verdadeira será exibida junto com a pontuação
+                                    }
+                                    
+                                 else
+                                    { terceiraCarta = true;
+                                         setTimeout(function() 
+                                    {
+                                        primeiraCarta.src = "IMGs/verso_das_cartas.jpg";
+                                        segundaCarta.src = "IMGs/verso_das_cartas.jpg";
+                                        primeiraCarta = null;
+                                        segundaCarta = null;
+                                        terceiraCarta = false;
+                                    }, 1000);
+
+                                    }
+                                  
+                                 }
+                            );
+                        }
+               );
+             
+            /* Nesse passo, temos dois passos acontecendo simultâneamente a de atribuir uma posição a carta(img)
+              e também a de o jogo reconhecer qual arta foi clicada. E essa segunda parte é feita através de uma função
+              onde a variável img, que a cada evento que acontecer, ou melhor cada vez que o usuário interagir com a imagem,
+              ela (a função) vai printar um alert, por exemplo, juntamente com o seu valor, nota-se que nessa função nós temos apenas
+              (), pois ela não recebe nenhum parâmetro.
+              Mas nesse caso em vez de ser um simples alert, nós precisamos virar a carta, em vez de estar viradas
+              elas virarão com a imagem. Exemplo: se o data-valor = "A" agora o src (define qual imagem aparece) vai virar
+             "IMGs/A.jpg", fazendo com que a carta seha revelada em vez do avesso.
+             
+             */
+              /* Aqui vamos verificar se as cartas já foram clicadas, se são iguais ou não
+               Vamo de "if else" né, o primeiro if, é para sabermos se alguma carta já foi clicada, se sim ele ignora, se não
+               guarda a primeira interação como "primeiraCarta", e assim deixa de ser null, depois teremos o
+               "else if" será para verificarmos a segunda, com a mesma condição
+               Adicionamos a variável terceiraCarta pra termos o controle, como estamos ouvindo o click do usuário, no
+               terceiro click, que é a terceira varta, o jogo é bloqueado, pois a verificão das duas cartas antes viradas está
+               acontecendo, se essa terceira vivar o jogo vai bugar, então a partir do momento em que essa terceira carta é verdadeira, true
+               ele não deixa que a função (img, posicao) seja feita sobre esse click, depois ela entra como condição
+               para   impedir esse click a mais, pois se for true, verdade, ele não deixa o jogo seguir travar de fato o tabuleiro e no fim vem para liberar o tabuleiro, com o 
+               terceirCarta false.
+               */
+            
+             /* Aqui verificaremos se as cartas são iguais, ou diferentes, é aquela "mágica" que as cartas ficam viradas
+             pra cima se forem iguais tlg  e se não, elas só desviram. O "if"é para vermoa se a posição das duas cartas
+             é igual (sim é por aqui que veremos se essas cartas são iguais, não pelo conteúdo, mas sim pela posição, loucura)
+             bem se elas forém iguais elas vão ficar viradas mesmo, e o "else" é o contrário, e nesse caso temos que fazer
+             uma função para que elas voltem depois de serem viradas (e não imediatamente). No if as cartas
+             terão o valor "null" pois nós não sabemos qual é o valor contido, porém no "else",  queremos que ela tenha
+             o verso colocado pra cima de novo né? Então ela não será  "null", mas sim a imagem do verso
+             */
+           
+             /*Aqui temos uma função dentro do else que fará com que nossas cartas virem, e a jogada seja
+             reeiniciada depois de um segundo, primeiraCarta.src = "IMGs/verso_das_cartas.jpg"; -> volta para o verso
+               primeiraCarta = null; recoloca os valores das nossas cartas para null
+             */
+            /*Bem aqui temos agora que ver se o usuário já abriu todas né, bora lá
+             Temos que colocar como suposição que todas as cartas já estão abertas e só depois é que vamos verificar mesmo, confuso e
+             parece que vai dar errado né, mas não vai não. Logo depois dessa suposição vamos ao primeiro if, bem é
+             nele que vamos verificar se tem alguma carta com o verso aparente, vamos fazer desse jeito: percorre
+             a lista das imagens das nossas cartas, ver se o caminho "nome da imagem" está com o nome de caminho do verso
+            (da pra ver isso, com o includes, ele verifica se um texto contém outro texto dentro dele. Muito louco.) depois de 
+            verificar se essa condição (do nome ser referente ao verso) a confiança de antes, todas as cartas abertas, cai por terra né
+            logo ela vira falsa, e se isso realmente acontecer (e, vai muitas vezes) não tem nenhuma mensagem, porém
+            se a confiança for verdadeira, a mensagem vai ser exibida, simples né, não acho.
+
+            */
+           function verificarVitoria() 
+           {
+            if (pontos == 4) 
+            {
+               placar.textContent = "🎉 Parabéns, você venceu! Pontuação final: " + pontos;
+            }
+            }
+             /* Essa parte até daria certo, SE o parâmetro fosse "todas as cartas para cima" mas apenas se fosse par o número 
+                 de cartaas fosse par, mas como nossa grade é 3x3, a última parte do
+                 código acaba nunca sendo verdaderia, pois como nossa comparação é
+                 sempre sobre duas cartas (pares), e ela não tem o outro par da última
+                 carta ela fica esperando de fato com que a última seja virada.
+             */
+
+             const botao = document.getElementById("JogarNovamente");
+          
+        
+             function JogarNovamente() 
+               {
+                document.getElementById("placar").textContent = "Pontuação: 0"; /* Recarrega a página*/
+                location.reload(); /* Recarrega a página*/
+                }
+
+             botao.addEventListener("click", JogarNovamente);
+            /*Aqui estamos criando um botão que permite que o jogador jogue novamente e o que ele faz?
+            Primeiro criamos a variável que sempre terá o valor  constante, por isso const, depois mais pra frente
+            vamos selecionar esse botão, chamando ele pelo seu id, que está lá no HTML. E vai armazenar esse elemento na
+            variávle criada aqui no script chamada botao.
+            Agora vem a função, vamos criá-la :
+            O que ela vai fazer?
+            Ele basicamente recarrega a página e também zera o placar, para que tudo fique certo, sem o placar estar
+            com um valor mas a página estar com as cartas viradas, quem faz oque?
+             O document.getElementById vai selecionar o elemento, cujo o id é placar, depois vai trocar o texto para
+              "Pontuação: 0", que vai zerar a tela visualmente pelo placar.
+              O location.reload() vai recarregar a página.
+             A última linha é a que vai falar que: quando o susuário clicar no botão do HTML, o botao (variável) vai acionar
+             por essa interação (click) a função JogarNovamente
+             */
+
+        </script>
+      
+
+    </body>
+</html>
