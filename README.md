@@ -35,3 +35,7 @@ O objetivo é encontrar todos os pares de cartas no menor tempo possível.
 ## 📄 Licença
 Este projeto está sob a licença MIT.  
 Você pode usar, modificar e distribuir livremente, desde que mantenha os créditos.
+
+# Onde acessar
+Você pode acessar o projeto pelo link (sem necessidade de baixar os arquivos) :
+https://6a26f1a9c68eea19658bef74--lustrous-khapse-d6cf3e.netlify.app/
